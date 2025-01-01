@@ -18,10 +18,10 @@ class ContactsPage(PageObjectHelper):
 
     @classmethod
     @allure.step("Verify if button Backup is visible and click on it")
-    def verify_if_is_contact_page(cls, driver, os):
+    def verify_if_button_backup_is_visible(cls, driver, os, wait):
         if os == 'android':
             btn_skip_backup: WebElement = driver.find_element(*cls.btn_skip_backup_android)
-            cls.wait_until_element_is_visible(driver, btn_skip_backup)
+            cls.wait_until_element_is_visible(wait, btn_skip_backup)
 
             allure.attach(
                 driver.get_screenshot_as_png(),
@@ -33,13 +33,13 @@ class ContactsPage(PageObjectHelper):
 
     @classmethod
     @allure.step("Verify if search bar is visible")
-    def verify_if_is_contact_page(cls, driver, os):
+    def verify_if_search_bar_is_visible(cls, driver, os, wait):
         if os == 'ios':
             input_search_contact: WebElement = driver.find_element(*cls.input_search_contact_ios)
-            cls.wait_until_element_is_visible(driver, input_search_contact)
+            cls.wait_until_element_is_visible(wait, input_search_contact)
         else:
             input_search_contact: WebElement = driver.find_element(*cls.input_search_contact_android)
-            cls.wait_until_element_is_visible(driver, input_search_contact)
+            cls.wait_until_element_is_visible(wait, input_search_contact)
 
         allure.attach(
             driver.get_screenshot_as_png(),
@@ -49,23 +49,23 @@ class ContactsPage(PageObjectHelper):
 
     @classmethod
     @allure.step("Click on search bar")
-    def verify_if_is_contact_page(cls, driver, os):
+    def click_on_search_bar(cls, driver, os, wait):
         if os == 'ios':
             input_search_contact: WebElement = driver.find_element(*cls.input_search_contact_ios)
-            input_search_contact.click()
+            cls.click_on_element(wait, input_search_contact)
         else:
             input_search_contact: WebElement = driver.find_element(*cls.input_search_contact_android)
-            input_search_contact.click()
+            cls.click_on_element(wait, input_search_contact)
 
     @classmethod
-    @allure.step("Verify if is Contacts Page")
-    def verify_if_is_contact_page(cls, driver, os):
+    @allure.step("Verify if button Add Contact is visible")
+    def verify_if_button_add_contact_is_visible(cls, driver, os, wait):
         if os == 'ios':
             btn_add_contact: WebElement = driver.find_element(*cls.btn_add_contact_ios)
-            cls.wait_until_element_is_visible(driver, btn_add_contact)
+            cls.wait_until_element_is_visible(wait, btn_add_contact)
         else:
             btn_add_contact: WebElement = driver.find_element(*cls.btn_add_contact_android)
-            cls.wait_until_element_is_visible(driver, btn_add_contact)
+            cls.wait_until_element_is_visible(wait, btn_add_contact)
 
         allure.attach(
             driver.get_screenshot_as_png(),
@@ -75,51 +75,22 @@ class ContactsPage(PageObjectHelper):
 
     @classmethod
     @allure.step("Click on button Add Contact")
-    def verify_if_is_contact_page(cls, driver, os):
+    def click_on_button_add_contact(cls, driver, os, wait):
         if os == 'ios':
             btn_add_contact: WebElement = driver.find_element(*cls.btn_add_contact_ios)
-            btn_add_contact.click()
+            cls.click_on_element(wait, btn_add_contact)
         else:
             btn_add_contact: WebElement = driver.find_element(*cls.btn_add_contact_android)
-            btn_add_contact.click()
+            cls.click_on_element(wait, btn_add_contact)
 
     @classmethod
-    @allure.step("Verify if the new Contact is in the list")
-    def verify_if_is_contact_page(cls, driver, os, fullname: str):
+    @allure.step("Verify if the new Contact is on the list")
+    def verify_if_new_contact_in_on_the_list(cls, driver, os, fullname: str, wait):
         if os == 'ios':
             input_search_contact: WebElement = driver.find_element(*cls.input_search_contact_ios)
-            input_search_contact.click()
-            input_search_contact.send_keys(fullname)
-            cls.wait_until_element_is_visible(driver, driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeCell[@name=\"" + fullname + "\"]"))
+            cls.clear_and_type_in_element(wait, input_search_contact, fullname)
+            cls.wait_until_element_is_visible(wait, driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeCell[@name='" + fullname + "']"))
         else:
             input_search_contact: WebElement = driver.find_element(*cls.input_search_contact_android)
-            input_search_contact.click()
-            input_search_contact.send_keys(fullname)
-            cls.wait_until_element_is_visible(driver, driver.find_element(AppiumBy.ACCESSIBILITY_ID, fullname))
-    #
-    # public void checkThatContactIsntInTheList(String fullName) {
-    #     if (Platform.IOS.equals(getPlatform())) {
-    #         checkElementIsVisible(driver.findElement(AppiumBy.accessibilityId("No Results for \"" + fullName + "\"")));
-    #     } else {
-    #         checkElementIsVisible(driver.findElement(AppiumBy.accessibilityId("No results")));
-    #     }
-    # }
-    #
-    # public void clickOnContactIsInTheList(String fullName, String email) {
-    #     if (Platform.IOS.equals(getPlatform())) {
-    #         clickOnElement(driver.findElement(AppiumBy.xpath("//XCUIElementTypeCell[@name=\"" + fullName + ", " + email + "\"]/XCUIElementTypeOther[2]")));
-    #     } else {
-    #         clickOnElement(driver.findElement(AppiumBy.accessibilityId(fullName)));
-    #     }
-    # }
-    #
-    # public void checkToastContactDeletedIsVisible() {
-    #     elementExistsAndIsDisplay(toastContactDeleted);
-    # }
-
-
-
-
-
-
-
+            cls.clear_and_type_in_element(wait, input_search_contact, fullname)
+            cls.wait_until_element_is_visible(wait, driver.find_element(AppiumBy.ACCESSIBILITY_ID, fullname))

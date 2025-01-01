@@ -8,7 +8,7 @@ from selenium.webdriver.remote.client_config import ClientConfig
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--os", action="store", default="ios", help="System to use in the mobile tests"
+        "--os", action="store", default="android", help="System to use in the mobile tests"
     )
     parser.addoption(
         "--host", action="store", default="127.0.0.1", help="Appium server host"
