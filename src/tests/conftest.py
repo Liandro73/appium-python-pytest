@@ -7,8 +7,6 @@ from appium.webdriver.appium_connection import AppiumConnection
 from selenium.webdriver.remote.client_config import ClientConfig
 from selenium.webdriver.support.wait import WebDriverWait
 
-TIMEOUT = 30
-
 def pytest_addoption(parser):
     parser.addoption(
         "--os", action="store", default="android", help="System to use in the mobile tests"
@@ -61,9 +59,3 @@ def driver(request, os, host, port):
     yield driver
 
     driver.quit()
-
-@pytest.fixture(scope='function')
-def wait(driver):
-    wait = WebDriverWait(driver, TIMEOUT)
-
-    yield wait
